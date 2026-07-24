@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TemptX — The next-generation platform. Join as a Founding Member before launch.">
+  <meta name="theme-color" content="#121212">
+  <title>TemptX — Coming Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__logo" href="#top" aria-label="TemptX home">
+        <span class="nav__mark" aria-hidden="true"></span>
+        <span class="nav__wordmark">TemptX</span>
+      </a>
+
+      <button
+        class="nav__toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        aria-label="Open menu"
+      >
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+        <span class="nav__toggle-bar" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav__menu" id="nav-menu">
+        <ul class="nav__links">
+          <li><a href="#hero">Overview</a></li>
+          <li><a href="#founding">Founding Members</a></li>
+        </ul>
+        <a class="btn btn--ghost nav__cta" href="#founding">Join Waitlist</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="hero" aria-labelledby="hero-brand">
+      <div class="hero__atmosphere" aria-hidden="true">
+        <div class="hero__glow hero__glow--gold"></div>
+        <div class="hero__glow hero__glow--soft"></div>
+        <div class="hero__grid"></div>
+        <div class="hero__orb"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="hero__brand" id="hero-brand">TemptX</p>
+        <h1 class="hero__headline">The platform, before everyone else.</h1>
+        <p class="hero__lede">
+          A premium technology experience launching soon. Secure your place as a Founding Member.
+        </p>
+
+        <div class="hero__actions" id="founding">
+          <button class="btn btn--primary" type="button" data-focus-email>
+            Become a Founding Member
+          </button>
+          <form class="waitlist" action="#" method="post" novalidate>
+            <label class="visually-hidden" for="email">Email address</label>
+            <input
+              class="waitlist__input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required
+            >
+            <button class="btn btn--secondary" type="submit">Notify Me</button>
+          </form>
+        </div>
+
+        <p class="waitlist__message" role="status" aria-live="polite" hidden></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__wordmark">TemptX</span>
+        <p class="footer__tagline">Launching soon.</p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer">
+        <a href="#hero">Overview</a>
+        <a href="#founding">Founding Members</a>
+        <a href="mailto:hello@temptx.com">Contact</a>
+      </nav>
+
+      <p class="footer__legal">
+        &copy; <span data-year></span> TemptX. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
