@@ -37,6 +37,7 @@
         <ul class="nav__links">
           <li><a href="#hero">Overview</a></li>
           <li><a href="#industry">Experience</a></li>
+          <li><a href="#roadmap">Roadmap</a></li>
           <li><a href="#founding">Founding Members</a></li>
         </ul>
         <a class="btn btn--ghost nav__cta" href="#founding">Join Waitlist</a>
@@ -62,29 +63,13 @@
             A modern platform built for the future of the adult industry.
           </p>
 
-          <div class="hero__actions" id="founding" data-hero-reveal>
+          <div class="hero__actions" data-hero-reveal>
             <div class="hero__cta-row">
-              <button class="btn btn--primary" type="button" data-focus-email>
+              <a class="btn btn--primary" href="#founding">
                 Become a Founding Member
-              </button>
+              </a>
               <a class="hero__link" href="#industry">Explore the Vision</a>
             </div>
-
-            <form class="waitlist" action="#" method="post" novalidate hidden>
-              <label class="visually-hidden" for="email">Email address</label>
-              <input
-                class="waitlist__input"
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                autocomplete="email"
-                required
-              >
-              <button class="btn btn--secondary" type="submit">Notify Me</button>
-            </form>
-
-            <p class="waitlist__message" role="status" aria-live="polite" hidden></p>
           </div>
         </div>
 
@@ -207,7 +192,7 @@
       </div>
     </section>
 
-    <section class="story story--finale" id="ecosystem" aria-labelledby="ecosystem-heading" data-reveal>
+    <section class="story" id="ecosystem" aria-labelledby="ecosystem-heading" data-reveal>
       <div class="story__bridge" aria-hidden="true"></div>
       <div class="story__inner">
         <header class="story__copy story__copy--finale">
@@ -226,6 +211,108 @@
         </figure>
       </div>
     </section>
+
+    <section class="pillars" id="pillars" aria-labelledby="pillars-heading" data-reveal>
+      <div class="pillars__inner">
+        <header class="pillars__header">
+          <h2 class="pillars__heading" id="pillars-heading" data-reveal-child>Built differently.</h2>
+        </header>
+
+        <ul class="pillars__grid" role="list">
+          <li class="pillar" data-reveal-child>
+            <span class="pillar__index" aria-hidden="true">01</span>
+            <span class="pillar__name">Identity Verification</span>
+          </li>
+          <li class="pillar" data-reveal-child>
+            <span class="pillar__index" aria-hidden="true">02</span>
+            <span class="pillar__name">Privacy</span>
+          </li>
+          <li class="pillar" data-reveal-child>
+            <span class="pillar__index" aria-hidden="true">03</span>
+            <span class="pillar__name">Messaging</span>
+          </li>
+          <li class="pillar" data-reveal-child>
+            <span class="pillar__index" aria-hidden="true">04</span>
+            <span class="pillar__name">District</span>
+          </li>
+          <li class="pillar" data-reveal-child>
+            <span class="pillar__index" aria-hidden="true">05</span>
+            <span class="pillar__name">Xync</span>
+          </li>
+          <li class="pillar" data-reveal-child>
+            <span class="pillar__index" aria-hidden="true">06</span>
+            <span class="pillar__name">Safety</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="roadmap" id="roadmap" aria-labelledby="roadmap-heading" data-reveal>
+      <div class="roadmap__inner">
+        <header class="roadmap__header">
+          <p class="roadmap__label" data-reveal-child>The path ahead</p>
+          <h2 class="roadmap__heading" id="roadmap-heading" data-reveal-child>Roadmap</h2>
+        </header>
+
+        <ol class="timeline" aria-label="Product roadmap">
+          <li class="timeline__item" data-reveal-child>
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <span class="timeline__phase">Foundation</span>
+          </li>
+          <li class="timeline__item" data-reveal-child>
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <span class="timeline__phase">Private Beta</span>
+          </li>
+          <li class="timeline__item" data-reveal-child>
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <span class="timeline__phase">Public Launch</span>
+          </li>
+          <li class="timeline__item" data-reveal-child>
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <span class="timeline__phase">Global Expansion</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="closing" id="founding" aria-labelledby="closing-heading" data-reveal>
+      <div class="closing__atmosphere" aria-hidden="true">
+        <div class="closing__glow"></div>
+        <div class="closing__grain"></div>
+      </div>
+
+      <div class="closing__inner">
+        <p class="closing__lead" data-reveal-child>
+          Change doesn't happen overnight.
+        </p>
+        <h2 class="closing__heading" id="closing-heading" data-reveal-child>
+          It happens when people decide they've had enough of the old way.
+        </h2>
+        <p class="closing__invite" data-reveal-child>Become one of them.</p>
+
+        <div class="closing__actions" data-reveal-child>
+          <button class="btn btn--primary btn--closing" type="button" data-focus-email>
+            Become a Founding Member
+          </button>
+
+          <form class="waitlist waitlist--closing" action="#" method="post" novalidate hidden>
+            <label class="visually-hidden" for="email-closing">Email address</label>
+            <input
+              class="waitlist__input"
+              type="email"
+              id="email-closing"
+              name="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required
+            >
+            <button class="btn btn--secondary" type="submit">Notify Me</button>
+          </form>
+
+          <p class="waitlist__message" role="status" aria-live="polite" hidden></p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -238,6 +325,7 @@
       <nav class="footer__nav" aria-label="Footer">
         <a href="#hero">Overview</a>
         <a href="#industry">Experience</a>
+        <a href="#roadmap">Roadmap</a>
         <a href="#founding">Founding Members</a>
         <a href="mailto:hello@temptx.com">Contact</a>
       </nav>

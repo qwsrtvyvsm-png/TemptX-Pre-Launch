@@ -99,10 +99,11 @@
 
   /* ---------- Founding Member CTA → reveal email ---------- */
   const initFocusEmail = () => {
-    const focusEmailBtn = document.querySelector("[data-focus-email]");
-    const waitlistForm = document.querySelector(".waitlist");
-    const emailInput = document.querySelector("#email");
-    if (!focusEmailBtn || !emailInput || !waitlistForm) return;
+    const closing = document.querySelector("#founding");
+    const waitlistForm = closing?.querySelector(".waitlist");
+    const emailInput = waitlistForm?.querySelector('input[type="email"]');
+    const focusEmailBtns = document.querySelectorAll("[data-focus-email]");
+    if (!closing || !waitlistForm || !emailInput) return;
 
     const revealWaitlist = () => {
       waitlistForm.hidden = false;
@@ -114,10 +115,14 @@
       });
     };
 
-    focusEmailBtn.addEventListener("click", revealWaitlist);
+    focusEmailBtns.forEach((btn) => {
+      btn.addEventListener("click", revealWaitlist);
+    });
 
     const maybeRevealFromHash = () => {
-      if (window.location.hash === "#founding") revealWaitlist();
+      if (window.location.hash === "#founding") {
+        window.setTimeout(revealWaitlist, prefersReducedMotion() ? 0 : 480);
+      }
     };
 
     maybeRevealFromHash();
@@ -125,50 +130,54 @@
 
     document.querySelectorAll('a[href="#founding"]').forEach((link) => {
       link.addEventListener("click", () => {
-        window.setTimeout(revealWaitlist, prefersReducedMotion() ? 0 : 320);
+        window.setTimeout(revealWaitlist, prefersReducedMotion() ? 0 : 700);
       });
     });
   };
 
   /* ---------- Waitlist form ---------- */
   const initWaitlist = () => {
-    const waitlistForm = document.querySelector(".waitlist");
-    const waitlistMessage = document.querySelector(".waitlist__message");
-    if (!waitlistForm) return;
-
-    const showMessage = (text, isError = false) => {
-      if (!waitlistMessage) return;
-
-      waitlistMessage.hidden = false;
-      waitlistMessage.textContent = text;
-      waitlistMessage.classList.toggle("is-error", isError);
-      waitlistMessage.classList.add("is-visible");
-    };
+    const waitlistForms = document.querySelectorAll(".waitlist");
+    if (!waitlistForms.length) return;
 
     const isValidEmail = (value) =>
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
 
-    waitlistForm.addEventListener("submit", (event) => {
-      event.preventDefault();
+    waitlistForms.forEach((waitlistForm) => {
+      const container = waitlistForm.closest(".closing__actions, .hero__actions") || waitlistForm.parentElement;
+      const waitlistMessage = container?.querySelector(".waitlist__message");
 
-      const emailInput = waitlistForm.querySelector("#email");
-      const email = emailInput ? emailInput.value.trim() : "";
+      const showMessage = (text, isError = false) => {
+        if (!waitlistMessage) return;
 
-      if (!email) {
-        showMessage("Please enter your email address.", true);
-        emailInput?.focus();
-        return;
-      }
+        waitlistMessage.hidden = false;
+        waitlistMessage.textContent = text;
+        waitlistMessage.classList.toggle("is-error", isError);
+        waitlistMessage.classList.add("is-visible");
+      };
 
-      if (!isValidEmail(email)) {
-        showMessage("Please enter a valid email address.", true);
-        emailInput?.focus();
-        return;
-      }
+      waitlistForm.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-      // Frontend capture only — wire to your backend / ESP when ready.
-      showMessage("You're on the list. We'll be in touch before launch.");
-      waitlistForm.reset();
+        const emailInput = waitlistForm.querySelector('input[type="email"]');
+        const email = emailInput ? emailInput.value.trim() : "";
+
+        if (!email) {
+          showMessage("Please enter your email address.", true);
+          emailInput?.focus();
+          return;
+        }
+
+        if (!isValidEmail(email)) {
+          showMessage("Please enter a valid email address.", true);
+          emailInput?.focus();
+          return;
+        }
+
+        // Frontend capture only — wire to your backend / ESP when ready.
+        showMessage("You're on the list. We'll be in touch before launch.");
+        waitlistForm.reset();
+      });
     });
   };
 
