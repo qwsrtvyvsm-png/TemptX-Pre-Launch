@@ -516,6 +516,236 @@ ul {
 }
 
 /* ============================================
+   Why TemptX Exists
+   ============================================ */
+
+.why {
+  position: relative;
+  padding: clamp(4.5rem, 10vh, 7.5rem) clamp(1.25rem, 4vw, 2.5rem) 0;
+}
+
+.why__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.why__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  max-width: 8ch;
+}
+
+.why__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-top: 0.35rem;
+}
+
+.why__copy p {
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 36rem;
+}
+
+.why__copy p:last-child {
+  color: var(--text);
+  font-weight: 400;
+}
+
+.section-divider {
+  width: min(100%, var(--content-max));
+  height: 1px;
+  margin: clamp(3.5rem, 8vh, 5.5rem) auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 164, 106, 0.35) 20%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(201, 164, 106, 0.35) 80%,
+    transparent 100%
+  );
+}
+
+/* ============================================
+   Platform Preview
+   ============================================ */
+
+.preview {
+  padding: clamp(4.5rem, 10vh, 7.5rem) clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.preview__inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.preview__header {
+  max-width: 40rem;
+  margin-bottom: clamp(2.5rem, 6vh, 4rem);
+}
+
+.preview__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  margin-bottom: var(--space-4);
+}
+
+.preview__subheading {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.preview__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.2vw, 1.5rem);
+}
+
+.preview-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
+    var(--surface-glass);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    transform var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease),
+    background var(--duration) var(--ease);
+}
+
+.preview-card[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.preview-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 700ms var(--ease),
+    transform 700ms var(--ease),
+    border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease),
+    background var(--duration) var(--ease);
+}
+
+.preview-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(201, 164, 106, 0.35);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(201, 164, 106, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(180deg, rgba(201, 164, 106, 0.06), rgba(255, 255, 255, 0.02)),
+    var(--surface-glass-strong);
+}
+
+.preview-card.is-visible:hover {
+  transform: translateY(-6px);
+}
+
+.preview-card__frame {
+  position: relative;
+  padding: var(--space-4) var(--space-4) 0;
+}
+
+.preview-card__placeholder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  border: 1px dashed rgba(201, 164, 106, 0.28);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.03), transparent 55%),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.015) 0,
+      rgba(255, 255, 255, 0.015) 8px,
+      transparent 8px,
+      transparent 16px
+    ),
+    #171717;
+  overflow: hidden;
+}
+
+.preview-card__placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(201, 164, 106, 0.08), transparent 55%);
+  pointer-events: none;
+}
+
+.preview-card__placeholder-label {
+  position: relative;
+  z-index: 1;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(201, 164, 106, 0.22);
+  border-radius: 999px;
+  background: rgba(18, 18, 18, 0.72);
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.preview-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+}
+
+.preview-card__label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.preview-card__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.preview-card__desc {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ============================================
    Footer
    ============================================ */
 
@@ -621,7 +851,8 @@ ul {
   .hero__actions,
   .hero__glow,
   .hero__grid,
-  .hero__orb {
+  .hero__orb,
+  .preview-card[data-reveal] {
     opacity: 1;
     transform: none;
   }
@@ -631,7 +862,22 @@ ul {
    Responsive
    ============================================ */
 
+@media (max-width: 980px) {
+  .preview__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 860px) {
+  .why__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .why__heading {
+    max-width: none;
+  }
+
   .nav__toggle {
     display: inline-flex;
     flex-direction: column;
@@ -695,6 +941,10 @@ ul {
 }
 
 @media (max-width: 560px) {
+  .preview__grid {
+    grid-template-columns: 1fr;
+  }
+
   .hero__actions {
     width: 100%;
   }

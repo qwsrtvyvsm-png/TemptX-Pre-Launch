@@ -1,39 +1,44 @@
 (() => {
   "use strict";
 
-  const header = document.querySelector(".site-header");
-  const toggle = document.querySelector(".nav__toggle");
-  const menu = document.querySelector(".nav__menu");
-  const menuLinks = menu ? menu.querySelectorAll("a") : [];
-  const waitlistForm = document.querySelector(".waitlist");
-  const waitlistMessage = document.querySelector(".waitlist__message");
-  const yearEl = document.querySelector("[data-year]");
+  const prefersReducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Footer year ---------- */
-  if (yearEl) {
+  const initFooterYear = () => {
+    const yearEl = document.querySelector("[data-year]");
+    if (!yearEl) return;
     yearEl.textContent = String(new Date().getFullYear());
-  }
+  };
 
   /* ---------- Sticky header state ---------- */
-  const updateHeader = () => {
+  const initHeader = () => {
+    const header = document.querySelector(".site-header");
     if (!header) return;
-    header.classList.toggle("is-scrolled", window.scrollY > 12);
-  };
 
-  updateHeader();
-  window.addEventListener("scroll", updateHeader, { passive: true });
+    const updateHeader = () => {
+      header.classList.toggle("is-scrolled", window.scrollY > 12);
+    };
+
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+  };
 
   /* ---------- Mobile navigation ---------- */
-  const setMenuOpen = (open) => {
+  const initMobileNav = () => {
+    const toggle = document.querySelector(".nav__toggle");
+    const menu = document.querySelector(".nav__menu");
     if (!toggle || !menu) return;
 
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    menu.classList.toggle("is-open", open);
-    document.body.style.overflow = open ? "hidden" : "";
-  };
+    const menuLinks = menu.querySelectorAll("a");
 
-  if (toggle && menu) {
+    const setMenuOpen = (open) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      menu.classList.toggle("is-open", open);
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+
     toggle.addEventListener("click", () => {
       const isOpen = toggle.getAttribute("aria-expanded") === "true";
       setMenuOpen(!isOpen);
@@ -54,33 +59,38 @@
       },
       { passive: true }
     );
-  }
+  };
 
   /* ---------- Founding Member CTA → email ---------- */
-  const focusEmailBtn = document.querySelector("[data-focus-email]");
-  const emailInput = document.querySelector("#email");
+  const initFocusEmail = () => {
+    const focusEmailBtn = document.querySelector("[data-focus-email]");
+    const emailInput = document.querySelector("#email");
+    if (!focusEmailBtn || !emailInput) return;
 
-  if (focusEmailBtn && emailInput) {
     focusEmailBtn.addEventListener("click", () => {
       emailInput.focus({ preventScroll: false });
       emailInput.scrollIntoView({ behavior: "smooth", block: "center" });
     });
-  }
-
-  /* ---------- Waitlist form ---------- */
-  const showMessage = (text, isError = false) => {
-    if (!waitlistMessage) return;
-
-    waitlistMessage.hidden = false;
-    waitlistMessage.textContent = text;
-    waitlistMessage.classList.toggle("is-error", isError);
-    waitlistMessage.classList.add("is-visible");
   };
 
-  const isValidEmail = (value) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
+  /* ---------- Waitlist form ---------- */
+  const initWaitlist = () => {
+    const waitlistForm = document.querySelector(".waitlist");
+    const waitlistMessage = document.querySelector(".waitlist__message");
+    if (!waitlistForm) return;
 
-  if (waitlistForm) {
+    const showMessage = (text, isError = false) => {
+      if (!waitlistMessage) return;
+
+      waitlistMessage.hidden = false;
+      waitlistMessage.textContent = text;
+      waitlistMessage.classList.toggle("is-error", isError);
+      waitlistMessage.classList.add("is-visible");
+    };
+
+    const isValidEmail = (value) =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
+
     waitlistForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
@@ -103,5 +113,42 @@
       showMessage("You're on the list. We'll be in touch before launch.");
       waitlistForm.reset();
     });
-  }
+  };
+
+  /* ---------- Preview card reveal ---------- */
+  const initRevealCards = () => {
+    const cards = document.querySelectorAll("[data-reveal]");
+    if (!cards.length) return;
+
+    if (prefersReducedMotion()) {
+      cards.forEach((card) => card.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          obs.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.16,
+        rootMargin: "0px 0px -8% 0px",
+      }
+    );
+
+    cards.forEach((card, index) => {
+      card.style.transitionDelay = `${Math.min(index % 3, 2) * 80}ms`;
+      observer.observe(card);
+    });
+  };
+
+  initFooterYear();
+  initHeader();
+  initMobileNav();
+  initFocusEmail();
+  initWaitlist();
+  initRevealCards();
 })();
