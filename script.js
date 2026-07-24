@@ -61,15 +61,37 @@
     );
   };
 
-  /* ---------- Founding Member CTA → email ---------- */
+  /* ---------- Founding Member CTA → reveal email ---------- */
   const initFocusEmail = () => {
     const focusEmailBtn = document.querySelector("[data-focus-email]");
+    const waitlistForm = document.querySelector(".waitlist");
     const emailInput = document.querySelector("#email");
-    if (!focusEmailBtn || !emailInput) return;
+    if (!focusEmailBtn || !emailInput || !waitlistForm) return;
 
-    focusEmailBtn.addEventListener("click", () => {
+    const revealWaitlist = () => {
+      waitlistForm.hidden = false;
+      waitlistForm.classList.add("is-visible");
       emailInput.focus({ preventScroll: false });
-      emailInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      emailInput.scrollIntoView({
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+        block: "center",
+      });
+    };
+
+    focusEmailBtn.addEventListener("click", revealWaitlist);
+
+    const maybeRevealFromHash = () => {
+      if (window.location.hash === "#founding") revealWaitlist();
+    };
+
+    maybeRevealFromHash();
+    window.addEventListener("hashchange", maybeRevealFromHash);
+
+    document.querySelectorAll('a[href="#founding"]').forEach((link) => {
+      link.addEventListener("click", () => {
+        // Allow scroll to settle, then reveal.
+        window.setTimeout(revealWaitlist, prefersReducedMotion() ? 0 : 280);
+      });
     });
   };
 
