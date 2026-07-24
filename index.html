@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="TemptX — The next-generation platform. Join as a Founding Member before launch.">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#0e0e0e">
   <title>TemptX — Coming Soon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-veil" aria-hidden="true"></div>
 
   <header class="site-header" id="top">
     <nav class="nav" aria-label="Primary">
@@ -45,24 +46,23 @@
 
   <main id="main">
     <section class="hero" id="hero" aria-labelledby="hero-headline">
-      <div class="hero__atmosphere" aria-hidden="true">
+      <div class="hero__atmosphere" aria-hidden="true" data-parallax="0.12">
         <div class="hero__glow hero__glow--gold"></div>
         <div class="hero__glow hero__glow--amber"></div>
-        <div class="hero__glow hero__glow--soft"></div>
         <div class="hero__veil"></div>
       </div>
 
       <div class="hero__stage">
         <div class="hero__copy">
-          <p class="hero__label">TEMPTX</p>
-          <h1 class="hero__headline" id="hero-headline">
+          <p class="hero__label" data-hero-reveal>TEMPTX</p>
+          <h1 class="hero__headline" id="hero-headline" data-hero-reveal>
             The platform redefining trust, connection and professionalism.
           </h1>
-          <p class="hero__lede">
+          <p class="hero__lede" data-hero-reveal>
             A modern platform built for the future of the adult industry.
           </p>
 
-          <div class="hero__actions" id="founding">
+          <div class="hero__actions" id="founding" data-hero-reveal>
             <div class="hero__cta-row">
               <button class="btn btn--primary" type="button" data-focus-email>
                 Become a Founding Member
@@ -88,123 +88,140 @@
           </div>
         </div>
 
-        <div class="hero__media" aria-hidden="true">
-          <div class="hero__media-frame">
-            <div class="hero__media-light"></div>
+        <div class="hero__media" aria-hidden="true" data-hero-reveal>
+          <div class="hero__media-parallax" data-parallax="0.08">
+            <div class="hero__media-frame reveal-media">
+              <div class="hero__media-light"></div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <section class="story" id="industry" aria-labelledby="industry-heading" data-reveal>
+      <div class="story__bridge" aria-hidden="true"></div>
       <div class="story__inner">
         <header class="story__copy">
-          <h2 class="story__heading" id="industry-heading">The industry deserves better.</h2>
-          <p class="story__lede">
+          <h2 class="story__heading" id="industry-heading" data-reveal-child>The industry deserves better.</h2>
+          <p class="story__lede" data-reveal-child>
             Today’s platforms are fragmented, outdated, and disconnected — built for another era of discovery and trust.
           </p>
-          <p class="story__closer">TemptX was created to change that.</p>
+          <p class="story__closer" data-reveal-child>TemptX was created to change that.</p>
         </header>
 
-        <figure class="story__shot" aria-hidden="true">
-          <div class="shot shot--desktop">
-            <span class="shot__label">Product screenshot</span>
+        <figure class="story__shot" aria-hidden="true" data-reveal-child>
+          <div class="story__parallax" data-parallax="0.05">
+            <div class="shot shot--desktop reveal-media">
+              <span class="shot__label">Product screenshot</span>
+            </div>
           </div>
         </figure>
       </div>
     </section>
 
     <section class="story" id="discover" aria-labelledby="discover-heading" data-reveal>
+      <div class="story__bridge" aria-hidden="true"></div>
       <div class="story__inner">
         <header class="story__copy">
-          <h2 class="story__heading" id="discover-heading">Find with confidence.</h2>
-          <p class="story__lede">
+          <h2 class="story__heading" id="discover-heading" data-reveal-child>Find with confidence.</h2>
+          <p class="story__lede" data-reveal-child>
             Discovery shaped by trust and transparency — so every search feels clear, considered, and confident.
           </p>
         </header>
 
-        <figure class="story__shot" aria-hidden="true">
-          <div class="shot shot--desktop shot--wide">
-            <span class="shot__label">Desktop — Directory</span>
+        <figure class="story__shot" aria-hidden="true" data-reveal-child>
+          <div class="story__parallax" data-parallax="0.05">
+            <div class="shot shot--desktop shot--wide reveal-media">
+              <span class="shot__label">Desktop — Directory</span>
+            </div>
           </div>
         </figure>
       </div>
     </section>
 
     <section class="story story--annotated" id="profiles" aria-labelledby="profiles-heading" data-reveal>
+      <div class="story__bridge" aria-hidden="true"></div>
       <div class="story__inner">
         <header class="story__copy">
-          <h2 class="story__heading" id="profiles-heading">Profiles with purpose.</h2>
-          <p class="story__lede">
+          <h2 class="story__heading" id="profiles-heading" data-reveal-child>Profiles with purpose.</h2>
+          <p class="story__lede" data-reveal-child>
             A professional presence that communicates who you are — and the signals that make engagement feel natural.
           </p>
         </header>
 
-        <figure class="story__shot story__shot--stage" aria-hidden="true">
-          <div class="shot shot--profile">
-            <span class="shot__label">Profile page</span>
-          </div>
+        <figure class="story__shot story__shot--stage" aria-hidden="true" data-reveal-child>
+          <div class="story__parallax" data-parallax="0.04">
+            <div class="shot shot--profile reveal-media">
+              <span class="shot__label">Profile page</span>
+            </div>
 
-          <ul class="annotations" aria-hidden="true">
-            <li class="annotation annotation--1">
-              <span class="annotation__dot"></span>
-              <span class="annotation__line"></span>
-              <span class="annotation__label">Verified Identity</span>
-            </li>
-            <li class="annotation annotation--2">
-              <span class="annotation__dot"></span>
-              <span class="annotation__line"></span>
-              <span class="annotation__label">Professional Profile</span>
-            </li>
-            <li class="annotation annotation--3">
-              <span class="annotation__dot"></span>
-              <span class="annotation__line"></span>
-              <span class="annotation__label">Availability</span>
-            </li>
-            <li class="annotation annotation--4">
-              <span class="annotation__dot"></span>
-              <span class="annotation__line"></span>
-              <span class="annotation__label">Preferences</span>
-            </li>
-            <li class="annotation annotation--5">
-              <span class="annotation__dot"></span>
-              <span class="annotation__line"></span>
-              <span class="annotation__label">Reviews</span>
-            </li>
-          </ul>
+            <ul class="annotations" aria-hidden="true">
+              <li class="annotation annotation--1">
+                <span class="annotation__dot"></span>
+                <span class="annotation__line"></span>
+                <span class="annotation__label">Verified Identity</span>
+              </li>
+              <li class="annotation annotation--2">
+                <span class="annotation__dot"></span>
+                <span class="annotation__line"></span>
+                <span class="annotation__label">Professional Profile</span>
+              </li>
+              <li class="annotation annotation--3">
+                <span class="annotation__dot"></span>
+                <span class="annotation__line"></span>
+                <span class="annotation__label">Availability</span>
+              </li>
+              <li class="annotation annotation--4">
+                <span class="annotation__dot"></span>
+                <span class="annotation__line"></span>
+                <span class="annotation__label">Preferences</span>
+              </li>
+              <li class="annotation annotation--5">
+                <span class="annotation__dot"></span>
+                <span class="annotation__line"></span>
+                <span class="annotation__label">Reviews</span>
+              </li>
+            </ul>
+          </div>
         </figure>
       </div>
     </section>
 
     <section class="story" id="xync" aria-labelledby="xync-heading" data-reveal>
+      <div class="story__bridge" aria-hidden="true"></div>
       <div class="story__inner">
         <header class="story__copy">
-          <h2 class="story__heading" id="xync-heading">Conversations that start before the meeting.</h2>
-          <p class="story__lede">
+          <h2 class="story__heading" id="xync-heading" data-reveal-child>Conversations that start before the meeting.</h2>
+          <p class="story__lede" data-reveal-child>
             Then comes <span class="story__accent">Xync</span> — where interest becomes dialogue, quietly, before anyone arrives.
           </p>
         </header>
 
-        <figure class="story__shot" aria-hidden="true">
-          <div class="shot shot--messaging">
-            <span class="shot__label">Messaging — Xync</span>
+        <figure class="story__shot" aria-hidden="true" data-reveal-child>
+          <div class="story__parallax" data-parallax="0.05">
+            <div class="shot shot--messaging reveal-media">
+              <span class="shot__label">Messaging — Xync</span>
+            </div>
           </div>
         </figure>
       </div>
     </section>
 
     <section class="story story--finale" id="ecosystem" aria-labelledby="ecosystem-heading" data-reveal>
+      <div class="story__bridge" aria-hidden="true"></div>
       <div class="story__inner">
         <header class="story__copy story__copy--finale">
-          <h2 class="story__heading story__heading--huge" id="ecosystem-heading">Beyond the directory.</h2>
-          <p class="story__lede">
+          <h2 class="story__heading story__heading--huge" id="ecosystem-heading" data-reveal-child>Beyond the directory.</h2>
+          <p class="story__lede" data-reveal-child>
             TemptX is an ecosystem — District turns listings into a living marketplace of discovery, commerce, and community.
           </p>
         </header>
 
-        <figure class="story__shot" aria-hidden="true">
-          <div class="shot shot--marketplace shot--wide">
-            <span class="shot__label">District marketplace</span>
+        <figure class="story__shot" aria-hidden="true" data-reveal-child>
+          <div class="story__parallax" data-parallax="0.04">
+            <div class="shot shot--marketplace shot--wide reveal-media">
+              <span class="shot__label">District marketplace</span>
+            </div>
           </div>
         </figure>
       </div>

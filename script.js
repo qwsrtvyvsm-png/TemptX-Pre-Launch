@@ -17,7 +17,7 @@
     if (!header) return;
 
     const updateHeader = () => {
-      header.classList.toggle("is-scrolled", window.scrollY > 12);
+      header.classList.toggle("is-scrolled", window.scrollY > 24);
     };
 
     updateHeader();
@@ -61,6 +61,42 @@
     );
   };
 
+  /* ---------- Smooth anchor scrolling ---------- */
+  const initSmoothScroll = () => {
+    if (prefersReducedMotion()) return;
+
+    const getHeaderOffset = () => {
+      const header = document.querySelector(".site-header");
+      return header ? header.getBoundingClientRect().height : 0;
+    };
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (event) => {
+        const href = anchor.getAttribute("href");
+        if (!href || href === "#") return;
+
+        const target = document.querySelector(href);
+        if (!target) return;
+
+        event.preventDefault();
+
+        const top =
+          target.getBoundingClientRect().top +
+          window.scrollY -
+          getHeaderOffset() +
+          1;
+
+        document.documentElement.classList.add("is-scrolling");
+        window.scrollTo({ top, behavior: "smooth" });
+
+        window.setTimeout(() => {
+          document.documentElement.classList.remove("is-scrolling");
+          history.pushState(null, "", href);
+        }, 900);
+      });
+    });
+  };
+
   /* ---------- Founding Member CTA → reveal email ---------- */
   const initFocusEmail = () => {
     const focusEmailBtn = document.querySelector("[data-focus-email]");
@@ -89,8 +125,7 @@
 
     document.querySelectorAll('a[href="#founding"]').forEach((link) => {
       link.addEventListener("click", () => {
-        // Allow scroll to settle, then reveal.
-        window.setTimeout(revealWaitlist, prefersReducedMotion() ? 0 : 280);
+        window.setTimeout(revealWaitlist, prefersReducedMotion() ? 0 : 320);
       });
     });
   };
@@ -156,18 +191,75 @@
         });
       },
       {
-        threshold: 0.18,
-        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.2,
+        rootMargin: "0px 0px -8% 0px",
       }
     );
 
     sections.forEach((section) => observer.observe(section));
   };
 
+  /* ---------- Subtle parallax ---------- */
+  const initParallax = () => {
+    const layers = document.querySelectorAll("[data-parallax]");
+    if (!layers.length || prefersReducedMotion()) return;
+
+    let ticking = false;
+    let active = false;
+
+    const update = () => {
+      if (!active) {
+        ticking = false;
+        return;
+      }
+
+      const viewportH = window.innerHeight;
+
+      layers.forEach((layer) => {
+        const speed = Number(layer.getAttribute("data-parallax")) || 0.08;
+        const rect = layer.getBoundingClientRect();
+        const centerOffset = rect.top + rect.height / 2 - viewportH / 2;
+        const translate = centerOffset * speed * -1;
+        layer.style.transform = `translate3d(0, ${translate.toFixed(2)}px, 0)`;
+      });
+
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    // Let entrance animations settle before driving transforms.
+    window.setTimeout(() => {
+      active = true;
+      update();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+    }, 1200);
+  };
+
+  /* ---------- Hero ready state ---------- */
+  const initHeroReady = () => {
+    if (prefersReducedMotion()) {
+      document.body.classList.add("is-ready");
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.body.classList.add("is-ready");
+    });
+  };
+
   initFooterYear();
   initHeader();
   initMobileNav();
+  initSmoothScroll();
   initFocusEmail();
   initWaitlist();
   initRevealSections();
+  initParallax();
+  initHeroReady();
 })();
