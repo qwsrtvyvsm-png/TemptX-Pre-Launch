@@ -137,13 +137,13 @@
     });
   };
 
-  /* ---------- Preview card reveal ---------- */
-  const initRevealCards = () => {
-    const cards = document.querySelectorAll("[data-reveal]");
-    if (!cards.length) return;
+  /* ---------- Story section reveal ---------- */
+  const initRevealSections = () => {
+    const sections = document.querySelectorAll("[data-reveal]");
+    if (!sections.length) return;
 
     if (prefersReducedMotion()) {
-      cards.forEach((card) => card.classList.add("is-visible"));
+      sections.forEach((section) => section.classList.add("is-visible"));
       return;
     }
 
@@ -156,15 +156,12 @@
         });
       },
       {
-        threshold: 0.16,
-        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.18,
+        rootMargin: "0px 0px -10% 0px",
       }
     );
 
-    cards.forEach((card, index) => {
-      card.style.transitionDelay = `${Math.min(index % 3, 2) * 80}ms`;
-      observer.observe(card);
-    });
+    sections.forEach((section) => observer.observe(section));
   };
 
   initFooterYear();
@@ -172,5 +169,5 @@
   initMobileNav();
   initFocusEmail();
   initWaitlist();
-  initRevealCards();
+  initRevealSections();
 })();
