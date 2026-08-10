@@ -4,6 +4,19 @@
   const prefersReducedMotion = () =>
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const trackEvent = (eventName, properties = {}) => {
+    const detail = {
+      event: eventName,
+      properties,
+      timestamp: new Date().toISOString(),
+    };
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(detail);
+
+    window.dispatchEvent(new CustomEvent("temptx:track", { detail }));
+  };
+
   /* ---------- Footer year ---------- */
   const initFooterYear = () => {
     const yearEl = document.querySelector("[data-year]");
@@ -135,6 +148,40 @@
     });
   };
 
+  const isConfiguredEndpoint = (value) =>
+    /^https?:\/\//i.test(value) && !value.includes("YOUR_MAILING_LIST_ENDPOINT");
+
+  const submitToMailingList = async (waitlistForm, payload) => {
+    const endpoint = (waitlistForm.dataset.mailingListEndpoint || "").trim();
+
+    if (!isConfiguredEndpoint(endpoint)) {
+      throw new Error("Mailing list is not configured yet. Add your provider endpoint to enable signups.");
+    }
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    let result = null;
+    try {
+      result = await response.json();
+    } catch {
+      result = null;
+    }
+
+    if (!response.ok) {
+      const message = result?.message || "Subscription failed. Please try again shortly.";
+      throw new Error(message);
+    }
+
+    return result;
+  };
+
   /* ---------- Waitlist form ---------- */
   const initWaitlist = () => {
     const waitlistForms = document.querySelectorAll(".waitlist");
@@ -144,8 +191,11 @@
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
 
     waitlistForms.forEach((waitlistForm) => {
-      const container = waitlistForm.closest(".closing__actions, .hero__actions") || waitlistForm.parentElement;
+      const container =
+        waitlistForm.closest(".closing__actions, .hero__actions") ||
+        waitlistForm.parentElement;
       const waitlistMessage = container?.querySelector(".waitlist__message");
+      const submitBtn = waitlistForm.querySelector('button[type="submit"]');
 
       const showMessage = (text, isError = false) => {
         if (!waitlistMessage) return;
@@ -156,11 +206,18 @@
         waitlistMessage.classList.add("is-visible");
       };
 
-      waitlistForm.addEventListener("submit", (event) => {
+      waitlistForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const emailInput = waitlistForm.querySelector('input[type="email"]');
+        const visitorTypeInput = waitlistForm.querySelector('select[name="visitorType"]');
+        const interestInput = waitlistForm.querySelector('select[name="interestTag"]');
+        const consentInput = waitlistForm.querySelector('input[name="consent"]');
+
         const email = emailInput ? emailInput.value.trim() : "";
+        const visitorType = visitorTypeInput ? visitorTypeInput.value.trim() : "";
+        const interestTag = interestInput ? interestInput.value.trim() : "";
+        const hasConsent = Boolean(consentInput?.checked);
 
         if (!email) {
           showMessage("Please enter your email address.", true);
@@ -174,9 +231,66 @@
           return;
         }
 
-        // Frontend capture only — wire to your backend / ESP when ready.
-        showMessage("You're on the list. We'll be in touch before launch.");
-        waitlistForm.reset();
+        if (!visitorType) {
+          showMessage("Please choose who you are.", true);
+          visitorTypeInput?.focus();
+          return;
+        }
+
+        if (!interestTag) {
+          showMessage("Please select what you want previews about.", true);
+          interestInput?.focus();
+          return;
+        }
+
+        if (!hasConsent) {
+          showMessage("Please confirm email consent to join the mailing list.", true);
+          consentInput?.focus();
+          return;
+        }
+
+        const payload = {
+          email,
+          tags: [`visitor:${visitorType}`, `interest:${interestTag}`],
+          source: waitlistForm.dataset.source || "prelaunch-site",
+          provider: waitlistForm.dataset.mailingListProvider || "custom",
+          doubleOptIn: waitlistForm.dataset.doubleOptIn === "true",
+          consent: {
+            granted: true,
+            statement:
+              "I agree to receive TemptX product updates and launch invites by email.",
+            timestamp: new Date().toISOString(),
+          },
+          context: {
+            page: window.location.href,
+            referrer: document.referrer || "direct",
+          },
+        };
+
+        submitBtn?.setAttribute("disabled", "disabled");
+
+        try {
+          await submitToMailingList(waitlistForm, payload);
+          showMessage(
+            "You're in. Check your inbox to confirm your double opt-in, then watch for early access updates and launch invites."
+          );
+          waitlistForm.reset();
+          trackEvent("mailing_list_signup_success", {
+            visitorType,
+            interestTag,
+          });
+        } catch (error) {
+          const message =
+            error instanceof Error
+              ? error.message
+              : "Could not join right now. Please try again.";
+          showMessage(message, true);
+          trackEvent("mailing_list_signup_error", {
+            reason: message,
+          });
+        } finally {
+          submitBtn?.removeAttribute("disabled");
+        }
       });
     });
   };
@@ -203,6 +317,37 @@
         threshold: 0.2,
         rootMargin: "0px 0px -8% 0px",
       }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  };
+
+  const initClickTracking = () => {
+    document.querySelectorAll("[data-track-click]").forEach((el) => {
+      el.addEventListener("click", () => {
+        trackEvent("cta_click", {
+          target: el.getAttribute("data-track-click"),
+        });
+      });
+    });
+  };
+
+  const initSectionTracking = () => {
+    const sections = document.querySelectorAll("[data-track-section]");
+    if (!sections.length) return;
+
+    const seen = new Set();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.getAttribute("data-track-section");
+          if (!id || seen.has(id)) return;
+          seen.add(id);
+          trackEvent("section_view", { section: id });
+        });
+      },
+      { threshold: 0.35 }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -269,6 +414,8 @@
   initFocusEmail();
   initWaitlist();
   initRevealSections();
+  initClickTracking();
+  initSectionTracking();
   initParallax();
   initHeroReady();
 })();
